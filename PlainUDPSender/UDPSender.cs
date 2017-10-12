@@ -17,13 +17,20 @@ namespace PlainUDPSender
         {
             Car newCar = new Car() { Color = "Red", Model = "Teasla P100", RegNo = "TA 56007" };
 
-            UdpClient senderClient = new UdpClient();
+            UdpClient client = new UdpClient();
 
-            IPEndPoint reseiversEndPoint = new IPEndPoint(IPAddress.Loopback, Port);
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Loopback, Port);
 
-            byte[] sendBytes = Encoding.ASCII.GetBytes(newCar.ToString());
+            byte[] dataGram = Encoding.ASCII.GetBytes(newCar.ToString());
 
-            senderClient.Send(sendBytes, sendBytes.Length, reseiversEndPoint);
+            try
+            {
+                client.Send(dataGram, dataGram.Length, endPoint);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
 
             //byte[] recievedBytes = senderClient.Receive(ref reseiversEndPoint);
 
